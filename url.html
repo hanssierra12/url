@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona un Proveedor</title>
+    <script>
+        function actualizarUrl() {
+            const opcion = document.querySelector('input[name="radio"]:checked').value;
+            const nuevaUrl = `/${opcion}`;
+            window.history.pushState({}, '', nuevaUrl);
+            localStorage.setItem('proveedorSeleccionado', opcion);
+            document.getElementById('urlActual').textContent = window.location.href;
+        }
+
+        function cargarSeleccion() {
+            const proveedorGuardado = localStorage.getItem('proveedorSeleccionado');
+            if (proveedorGuardado) {
+                const radioSeleccionado = document.querySelector(`input[value="${proveedorGuardado}"]`);
+                if (radioSeleccionado) {
+                    radioSeleccionado.checked = true;
+                    actualizarUrl(); 
+                }
+            }
+        }
+
+        window.onload = cargarSeleccion; 
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Selecciona un Proveedor para tu Aplicación Móvil o Sitio Web</h1>
+    <form>
+        <label>
+            <input type="radio" name="radio" value="https://sonic.paulatina.co/8174/stream" checked>
+            Proveedor 1: Sonic
+        </label>
+        <label>
+            <input type="radio" name="radio" value="https://streamtotal.net/proxy/unisimon/stream">
+            Proveedor 2: Stream Total
+        </label>
+        <button type="button" onclick="actualizarUrl()">Actualizar URL</button>
+    </form>
+    <p>URL actual: <span id="urlActual">{{actual_url}}</span></p>
+</body>
+</html>
